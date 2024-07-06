@@ -15,7 +15,6 @@ import lombok.*;
 public class Property {
 
     @Id
-    @Column(name = "property_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -31,16 +30,16 @@ public class Property {
     @Column(name = "details")
     private String details;
 
-    @NotBlank(message = "Sizes are required.")
+    @NotBlank(message = "Sizes are required. exp 90m²")
     @Column(name = "sizes", nullable = false)
     private String sizes;
 
-    @NotBlank(message = "Locations are required.")
+    @NotBlank(message = "Locations are required. exp Gremda.")
     @Column(name = "location", nullable = false)
     private String locations;
 
     @NotBlank(message = "Equipment is required.")
-    @Column(name = "equipment", nullable = false)
+    @Column(name = "equipment")
     private String equipment;
 
     @NotBlank(message = "Price is required.")
@@ -50,28 +49,17 @@ public class Property {
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDate createdAt;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "occupation_status", nullable = false)
-    private OccupationStatus occupationStatus;
+    @NotBlank(message = "Status is required.")
+    @Column(name = "ocupation_status", nullable = false)
+    private String status;
 
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDate.now();
     }
 
-    public enum OccupationStatus {
-        OCCUPEES("sont occupées"),
-        DISPONIBLES("disponibles"),
-        EN_COURS_DE_MAINTENANCE("en cours de maintenance");
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
 
-        private final String displayValue;
-
-        OccupationStatus(String displayValue) {
-            this.displayValue = displayValue;
-        }
-
-        public String getDisplayValue() {
-            return displayValue;
-        }
-    }
 }
