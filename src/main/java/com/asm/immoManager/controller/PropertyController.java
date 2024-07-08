@@ -1,18 +1,18 @@
 package com.asm.immoManager.controller;
 
 import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import com.asm.immoManager.entity.Property;
 import com.asm.immoManager.service.PropertyService;
 
+import lombok.AllArgsConstructor;
+
+@AllArgsConstructor
 @RestController
 @RequestMapping("/property")
 public class PropertyController {
 
-    @Autowired
     PropertyService propertyService;
 
     // user create new porperty
@@ -31,5 +31,11 @@ public class PropertyController {
     @GetMapping("/{propertyId}")
     public ResponseEntity<Property> getUserPropert(@PathVariable Long propertyId) {
         return new ResponseEntity<Property>(propertyService.getPropertyById(propertyId), HttpStatus.OK);
+    }
+
+    // get all properties
+    @GetMapping("/all")
+    public ResponseEntity<List<Property>> getProperties() {
+        return new ResponseEntity<List<Property>>(propertyService.getAllProperties(), HttpStatus.OK);
     }
 }

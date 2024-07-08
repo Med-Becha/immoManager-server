@@ -1,20 +1,19 @@
 package com.asm.immoManager.service;
 
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.asm.immoManager.entity.Property;
 import com.asm.immoManager.entity.User;
 import com.asm.immoManager.repository.PropertyRepository;
 import com.asm.immoManager.repository.UserRepository;
 
+import lombok.AllArgsConstructor;
+
+@AllArgsConstructor
 @Service
 public class PropertyServiceImpl implements PropertyService {
 
-    @Autowired
     PropertyRepository propertyRepository;
-
-    @Autowired
     UserRepository userRepository;
 
     @Override
