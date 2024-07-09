@@ -1,6 +1,8 @@
 package com.asm.immoManager.entity;
 
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
@@ -24,12 +26,12 @@ public class User {
 
     @NotBlank(message = "Email is required.")
     @Email(message = "Email should be valid.")
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
     @NotBlank(message = "Phone is required.")
     @Column(name = "phone", nullable = false)
-    private String phone = "add a phone number";
+    private String phone;
 
     @Column(name = "is_admin", nullable = false)
     private boolean admin;
@@ -39,12 +41,12 @@ public class User {
     private String password;
 
     // One user to many properties
-    @JsonManagedReference
+    @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Property> properties;
+    private List<Property> property;
 
     // One user to many tenants
-    @JsonManagedReference
+    @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Tenant> tenants;
 }

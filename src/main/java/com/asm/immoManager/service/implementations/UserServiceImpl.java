@@ -1,9 +1,10 @@
-package com.asm.immoManager.service;
+package com.asm.immoManager.service.implementations;
 
 import java.util.List;
 import org.springframework.stereotype.Service;
 import com.asm.immoManager.entity.User;
 import com.asm.immoManager.repository.UserRepository;
+import com.asm.immoManager.service.UserService;
 
 import lombok.AllArgsConstructor;
 
@@ -61,4 +62,8 @@ public class UserServiceImpl implements UserService {
         return (List<User>) userRepository.findAll();
     }
 
+    // login user
+    // public User loginUser(User user) {
+
+    // }
 }

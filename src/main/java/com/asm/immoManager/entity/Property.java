@@ -1,14 +1,29 @@
 package com.asm.immoManager.entity;
 
-import java.time.LocalDate;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
-import lombok.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.util.List;
 
 @Entity
-@Table(name = "properties")
+@Table(name = "property")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -19,63 +34,52 @@ public class Property {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NonNull
-    @NotBlank(message = "Name is required.")
+    // @NotBlank(message = "Name is required.")
     @Column(name = "name", nullable = false)
     private String name;
 
-    @NonNull
-    @NotBlank(message = "Description is required.")
+    // @NotBlank(message = "Description is required.")
     @Column(name = "description", nullable = false)
     private String description;
 
-    @NonNull
-    @NotBlank(message = "Details are required, exp S+2.")
+    // @NotBlank(message = "Details are required, exp S+2.")
     @Column(name = "details")
     private String details;
 
-    @NonNull
-    @NotBlank(message = "Sizes are required. exp 90m²")
+    // @NotBlank(message = "Sizes are required. exp 90m²")
     @Column(name = "sizes", nullable = false)
     private String sizes;
 
-    @NonNull
-    @NotBlank(message = "Locations are required. exp Gremda.")
+    // @NotBlank(message = "Locations are required. exp Gremda.")
     @Column(name = "location", nullable = false)
     private String location;
 
-    @NonNull
-    @NotBlank(message = "Equipment is required.")
+    // @NotBlank(message = "Equipment is required.")
     @Column(name = "equipment")
     private String equipment;
 
-    @NonNull
-    @NotBlank(message = "Price is required.")
+    // @NotBlank(message = "Price is required.")
     @Column(name = "price", nullable = false)
     private String price;
 
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDate createdAt;
-
-    @NonNull
-    @NotBlank(message = "Status is required.")
+    // @NotBlank(message = "Status is required.")
     @Column(name = "ocupation_status", nullable = false)
     private String status;
 
-    @PrePersist
-    protected void onCreate() {
-        createdAt = LocalDate.now();
-    }
-
     // Many properties to one user
-    @JsonBackReference
-    @ManyToOne(optional = false)
+    @JsonIgnore
+    @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
     // One property to one tenant (optional true)
-    @JsonBackReference
-    @ManyToOne(optional = true)
+    @JsonIgnore
+    @ManyToOne
     @JoinColumn(name = "tenant_id", referencedColumnName = "id")
     private Tenant tenant;
+
+    // Bidirectional relationship with TenantProperty
+    @JsonIgnore
+    @OneToMany(mappedBy = "property", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<TenantProperty> tenantProperties;
 }

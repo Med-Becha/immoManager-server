@@ -1,14 +1,14 @@
-package com.asm.immoManager.service;
+package com.asm.immoManager.service.implementations;
 
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.asm.immoManager.entity.Property;
 import com.asm.immoManager.entity.Tenant;
 import com.asm.immoManager.entity.User;
 import com.asm.immoManager.repository.TenantRepository;
 import com.asm.immoManager.repository.UserRepository;
+import com.asm.immoManager.service.TenantService;
 
 import lombok.AllArgsConstructor;
 

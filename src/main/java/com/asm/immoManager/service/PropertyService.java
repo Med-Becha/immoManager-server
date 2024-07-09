@@ -1,8 +1,10 @@
 package com.asm.immoManager.service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import com.asm.immoManager.entity.Property;
+import com.asm.immoManager.entity.TenantProperty;
 
 public interface PropertyService {
 
@@ -18,7 +20,12 @@ public interface PropertyService {
     // get all users properties
     List<Property> getAllProperties();
 
+    // update a property by user id
+    Property updateProperty(Long id, Property property);
+
     // get user properties
     List<Property> getUserProperties(Long id);
+
+    TenantProperty addTenantProperty(Long propertyId, Long tenantId, LocalDate startDate, LocalDate endDate);
 
 }

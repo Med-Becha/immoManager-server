@@ -1,12 +1,17 @@
 package com.asm.immoManager.entity;
 
-import java.time.LocalDate;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
-import lombok.*;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "tenant")
@@ -52,22 +57,14 @@ public class Tenant {
     @Column(name = "remark")
     private String remark;
 
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDate createdAt;
-
     // Many tenants to one user
-    @JsonBackReference
-    @ManyToOne(optional = false)
+    @JsonIgnore
+    @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
     // One tenant to many properties
-    @JsonManagedReference
+    @JsonIgnore
     @OneToMany(mappedBy = "tenant", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Property> properties;
-
-    @PrePersist
-    protected void onCreate() {
-        createdAt = LocalDate.now();
-    }
+    private List<TenantProperty> tenantProperties;
 }

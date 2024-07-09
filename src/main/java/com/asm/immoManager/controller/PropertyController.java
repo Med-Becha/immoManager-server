@@ -29,8 +29,15 @@ public class PropertyController {
 
     // get property by id
     @GetMapping("/{propertyId}")
-    public ResponseEntity<Property> getUserPropert(@PathVariable Long propertyId) {
+    public ResponseEntity<Property> getUserProperty(@PathVariable Long propertyId) {
         return new ResponseEntity<Property>(propertyService.getPropertyById(propertyId), HttpStatus.OK);
+    }
+
+    // delete property by id
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteProperty(@PathVariable Long id) {
+        propertyService.deletePropertyById(id);
+        return new ResponseEntity<>("Property deleted successfully", HttpStatus.OK);
     }
 
     // get all properties
@@ -38,4 +45,25 @@ public class PropertyController {
     public ResponseEntity<List<Property>> getProperties() {
         return new ResponseEntity<List<Property>>(propertyService.getAllProperties(), HttpStatus.OK);
     }
+
+    // update a property
+    @PatchMapping("/{id}")
+    public ResponseEntity<String> updateUser(@PathVariable Long id, @RequestBody Property property) {
+        Property updatedProperty = propertyService.updateProperty(id, property);
+        if (updatedProperty == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok("Property updated successfully");
+    }
+
+    // @PostMapping("/{propertyId}/tenants/{tenantId}")
+    // public ResponseEntity<TenantProperty> addTenantProperty(
+    // @PathVariable Long propertyId,
+    // @PathVariable Long tenantId,
+    // @RequestParam LocalDate startDate,
+    // @RequestParam LocalDate endDate) {
+    // TenantProperty tenantProperty = propertyService.addTenantProperty(propertyId,
+    // tenantId, startDate, endDate);
+    // return new ResponseEntity<>(tenantProperty, HttpStatus.CREATED);
+    // }
 }
