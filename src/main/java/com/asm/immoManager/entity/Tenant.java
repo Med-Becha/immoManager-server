@@ -1,17 +1,12 @@
 package com.asm.immoManager.entity;
 
 import java.util.List;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Table(name = "tenant")
@@ -27,7 +22,7 @@ public class Tenant {
 
     @NotBlank(message = "Name is required.")
     @Column(name = "name", nullable = false)
-    private String username;
+    private String name;
 
     @NotBlank(message = "Email is required.")
     @Email(message = "Email should be valid.")
@@ -44,7 +39,7 @@ public class Tenant {
 
     @NotBlank(message = "Address is required.")
     @Column(name = "adress", nullable = false)
-    private String adress;
+    private String address;
 
     @NotBlank(message = "Job is required.")
     @Column(name = "job", nullable = false)
@@ -59,7 +54,7 @@ public class Tenant {
 
     // Many tenants to one user
     @JsonIgnore
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
@@ -67,4 +62,8 @@ public class Tenant {
     @JsonIgnore
     @OneToMany(mappedBy = "tenant", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<TenantProperty> tenantProperties;
+
+    @ManyToMany
+    @JoinTable(name = "tenant_property", joinColumns = @JoinColumn(name = "tenant_id"), inverseJoinColumns = @JoinColumn(name = "property_id"))
+    private List<Property> property;
 }

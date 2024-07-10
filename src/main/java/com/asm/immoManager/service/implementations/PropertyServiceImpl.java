@@ -23,6 +23,7 @@ public class PropertyServiceImpl implements PropertyService {
     TenantRepository tenantRepository;
     TenantPropertyRepository tenantPropertyRepository;
 
+    // save new property
     @Override
     public Property saveProperty(Property property, Long userId) {
         User user = userRepository.findById(userId).get();
