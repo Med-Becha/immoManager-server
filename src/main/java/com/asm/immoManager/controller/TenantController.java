@@ -40,7 +40,8 @@ public class TenantController {
     // get tenants
     @GetMapping("/all")
     public ResponseEntity<List<Tenant>> getTenants() {
-        return new ResponseEntity<>(tenantService.getAllTenants(), HttpStatus.OK);
+        // return new ResponseEntity<>(tenantService.getAllTenants(), HttpStatus.OK);
+        return ResponseEntity.status(HttpStatus.OK).body(tenantService.getAllTenants());
     }
 
     // get user tenants
