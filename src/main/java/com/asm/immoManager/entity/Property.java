@@ -69,6 +69,11 @@ public class Property {
     @OneToMany(mappedBy = "property", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<TenantProperty> tenantProperties;
 
+    // one property to many images
+
+    @OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
+    private List<PropertyImages> images;
+
     public enum PropertyStatus {
         disponibles,
         occupées,

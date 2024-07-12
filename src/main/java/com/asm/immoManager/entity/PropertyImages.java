@@ -1,5 +1,7 @@
 package com.asm.immoManager.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -23,4 +25,9 @@ public class PropertyImages {
 
     @Column(name = "imagePath")
     private String imagePath;
+
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "property_id")
+    private Property property;
 }
