@@ -1,6 +1,6 @@
 package com.asm.immoManager.service.implementations;
 
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import com.asm.immoManager.entity.Property;
@@ -88,7 +88,7 @@ public class PropertyServiceImpl implements PropertyService {
     }
 
     //
-    public TenantProperty addTenantProperty(Long propertyId, Long tenantId, LocalDate startDate, LocalDate endDate) {
+    public TenantProperty addTenantProperty(Long propertyId, Long tenantId, Date startDate, Date endDate) {
         TenantProperty tenantProperty = new TenantProperty();
         tenantProperty.setProperty(propertyRepository.findById(propertyId).orElseThrow());
         tenantProperty.setTenant(tenantRepository.findById(tenantId).orElseThrow());

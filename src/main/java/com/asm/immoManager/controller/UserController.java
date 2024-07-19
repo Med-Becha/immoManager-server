@@ -4,17 +4,25 @@ import java.util.List;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
+import com.asm.immoManager.dto.LoginRequest;
 import com.asm.immoManager.entity.User;
 import com.asm.immoManager.service.UserService;
 
 import lombok.AllArgsConstructor;
 
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @AllArgsConstructor
 @RestController
 @RequestMapping("/user")
 public class UserController {
 
     UserService userService;
+
+    // login user
+    @PostMapping("/login")
+    public User loginUser(@RequestBody LoginRequest loginRequest) {
+        return userService.loginUser(loginRequest.getEmail(), loginRequest.getPassword());
+    }
 
     // create new user
     @PostMapping()

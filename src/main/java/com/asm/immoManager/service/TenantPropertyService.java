@@ -6,4 +6,6 @@ public interface TenantPropertyService {
 
     TenantProperty assignPropertyToTenant(TenantProperty tenantProperty);
 
+    // set tenant to a properties
+    TenantProperty setTenantToProperty(Long tenantId, Long propertyId, TenantProperty tenantProperty);
 }

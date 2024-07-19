@@ -11,13 +11,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.asm.immoManager.entity.Tenant;
-import com.asm.immoManager.entity.TenantProperty;
 import com.asm.immoManager.service.TenantService;
 
 import lombok.AllArgsConstructor;
+
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping("/tenant")
 @AllArgsConstructor
@@ -25,7 +27,7 @@ public class TenantController {
 
     TenantService tenantService;
 
-    // user create new porperty
+    // user create new tenant
     @PostMapping("/user/{userid}")
     public ResponseEntity<Tenant> saveTenant(@RequestBody Tenant tenant, @PathVariable Long userid) {
         return new ResponseEntity<>(tenantService.saveTenant(tenant, userid), HttpStatus.CREATED);
@@ -50,6 +52,7 @@ public class TenantController {
         return new ResponseEntity<>(tenantService.getUserTenants(userId), HttpStatus.OK);
     }
 
+    // update a tenant
     @PatchMapping("/{id}")
     ResponseEntity<String> updateTenant(@PathVariable Long id, @RequestBody Tenant tenant) {
 
@@ -61,15 +64,4 @@ public class TenantController {
 
     }
 
-    @PatchMapping("/tenantproperty/{tenatId}/{propertyId}")
-    ResponseEntity<String> updateTenant(@PathVariable Long tenatId, @PathVariable Long propertyId,
-            @RequestBody TenantProperty tenantProperty) {
-
-        TenantProperty setTenantToProperty = tenantService.setTenantToProperty(tenatId, propertyId, tenantProperty);
-        if (setTenantToProperty == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok("Tenant has a new property successfully");
-
-    }
 }
